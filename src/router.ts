@@ -1,5 +1,6 @@
 import { Router, RouterContext, Status } from "../deps.ts";
 import { GateStatus } from './gateStatus.ts'
+import { changeStatus } from './changeStatus.ts'
 
 const router = new Router();
 
@@ -21,8 +22,10 @@ router
     if (body.type === "json") {
       status = await body.value;
     }
-    
+
     if (status) {
+      changeStatus(status.IsClosed, status.ShouldBeClosed)
+
       context.response.status = Status.OK;
       context.response.body = status;
       context.response.type = "json";
